@@ -1,0 +1,23 @@
+RadianceController
+https://www.dropbox.com/s/anilmuula82sf3v/VideoAlchemy%20At%20Radiance%20%28page%2033%29.png
+	
+Jason Stephens
+Michael Colombo
+2012.10
+
+Physical interface made for the Video Alchemy Exhibit at Radiance Art Gallery
+"artistic works of interactive divination technology.  a multimedia exhibit by jason stephens"
+{or so says the flyer} - 
+https://www.dropbox.com/s/q2e00d84orw509h/_VIDEOALCHEMY-FRONT.jpg
+
+
+Arduino Mega 2560
+4 illuminated buttons
+7 potentiometers
+
+Mode 0 = all buttonLights ON
+Mode 1 = buttonLights flash until pressed, then remain light
+Mode 2 = buttonLights flash in sequence to lead the user through the process
+
+Sketches and Mockups of the Installation from my iPad:
+https://www.dropbox.com/sh/90rs9db1xebfejy/bbzPMPqx-5
