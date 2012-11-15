@@ -2,7 +2,7 @@
 2012.11
 A Variation of Kojo Opuni's Rotation sketch
 
-separated rotational velocity from n-fold symmetry genertion
+separated rotational velocity from n-fold symmetry generation
 */
 
 
