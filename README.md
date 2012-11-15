@@ -71,7 +71,10 @@ _______________
 	(rotaFunction(foo) {
 		var name = "sup";
 	});
-	```
+	```  
+_______________
+
+
 ###Related Quotes:
 - On VideoMancy:
 	- “…the complex hardware demanded by this area gives it an aura of technological utopianism.  Sometimes indeed it aspires to a mysticism more often encountered in the drug culture than in the precincts of high-technology.  While its much publicized potential is there, it has rarely been fulfilled; its critics call it moving wall paper; its partisans see in it, signs of a universal language.”  Video: The New Wave | Part 2 of 6 – YouTube.
