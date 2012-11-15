@@ -1,5 +1,13 @@
+/*j.stephens
+2012.11
+A Variation of Kojo Opuni's Rotation sketch
+
+separated rotational velocity from n-fold symmetry genertion
+*/
+
+
 float i;
-float a=0;
+float a=0;  // rotation location
 float delta = 0; // rotational velocity defined by the distance from width/2 where center = 0 velocity;
 
 void setup() {
