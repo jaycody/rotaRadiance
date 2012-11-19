@@ -17,25 +17,49 @@
 
 int USB_SERIAL_PORT = 0;
 boolean USING_FP13 = false;
+
+// Set to true if using the Radiance podium controller setup.
 boolean USING_RADIANCE_CONTROLLER = true;
 
 
 
 ////////////////
 //  GLOBALS FOR DRAWING 
+//
+
+// Set to 'true' to preload all images before starting (slower).
+// Set to 'false' to load images as they're used (good for development).
+boolean PRELOAD_IMAGES = true;
+
+// Size of our screen.  Use 'displayWidth' and 'displayHeight' for full screen size, or specify explicit size.
+int SCREEN_WIDTH = 640;  //640;
+int SCREEN_HEIGHT = 480;  //480;
+
+// total # of Angel Cards
+int totalCards = 417; //418; // 20=troubleshooting #Angels, 418=total#Angels
+
+// Location where we'll save snapshots.
+String SNAP_FOLDER_PATH = "/Users/jayPop/snaps/";
+
+// Opacity levels for each arm
+int RED_OPACITY = 255;
+int GREEN_OPACITY = 240;
+int BLUE_OPACITY = 200;
+
+// Number of samples for each potentiometer.
+int SAMPLE_COUNT = 3;
+
+//
+//  END GLOBALS FOR DRAWING 
 ////////////////
-int SCREEN_WIDTH = 1280;
-int SCREEN_HEIGHT = 768;
 
 
-
-import processing.opengl.*;
+import java.awt.Toolkit;
+//import processing.opengl.*;
 import processing.serial.*;
 Serial myPort; 
 World world;  // a background reality onto which all else happens
 
-// total # of Angel Cards
-int totalCards = 20; //20; // 20=troubleshooting #Angels, 839=total#Angels
 PImage[] angelCard = new PImage[totalCards];  // array of Cards.  each card is one of the "totalCards"
 
 
@@ -87,15 +111,22 @@ Potentiometer ohm;
 // button which "snaps" the picture
 Button snapper;
 
+PImage feedbackImage;
 
 
 //_________________________________________________________________________________________
 void setup() {
+  
+  println("Initializing window at " + SCREEN_WIDTH + " x " + SCREEN_HEIGHT);
+
   // set the size of the window:
   //size(800, 600, OPENGL); use this for diagnostic test with the sensor Graph
 
+  size(displayWidth, displayHeight,P2D);  //large scale
+
+ // size(displayWidth, displayHeight, P2D);  //large scale
   //size(displayWidth, displayHeight, OPENGL);  //large scale
-  size(SCREEN_WIDTH, SCREEN_HEIGHT); // troublshooting phase
+  //size(SCREEN_WIDTH, SCREEN_HEIGHT); // troublshooting phase
   smooth();
   background(0);
 
@@ -112,12 +143,14 @@ void setup() {
   }
   //__________________________________________________________________________________
 
+
   //
-  // set up the initial set of angelCards
+  // preload images if necessary
   //
-  for (int i=0; i<totalCards;i++) {   //these are the place holding PImages
-    // angelCard [i] = createImage(width, height, ARGB);
-    angelCard[i] = loadImage("F_P" + i + ".png");
+  if (PRELOAD_IMAGES) {
+     for (int i = 0; i < totalCards; i++) {
+       getAngelCard(i);
+     } 
   }
 
   //
@@ -155,9 +188,9 @@ void setup() {
     //
   // set up our arms
   //
-  arms[0] = redArm = new Arm("red", redLeft, redRight);
-  arms[1] = greenArm = new Arm("green", greenLeft, greenRight);
-  arms[2] = blueArm = new Arm("blue", blueLeft, blueRight);
+  arms[0] = redArm = new Arm("  red", redLeft, redRight, RED_OPACITY);
+  arms[1] = greenArm = new Arm("green", greenLeft, greenRight, GREEN_OPACITY);
+  arms[2] = blueArm = new Arm(" blue", blueLeft, blueRight, BLUE_OPACITY);
 
   //
   // Initialize app states
@@ -194,11 +227,18 @@ void setup() {
 
   // don't draw strokes around the shapes:
   //noStroke();
+  
+  //setup the feedback loop
+  //feedbackImage = createImage(100, 100, ARGB); //setting up the feedback loop
 }
 
 void draw() {
   //background(99, 234, 120);  // nice green background
 
+// feedback arm
+
+
+  
   // graphSensorValuesTest();
   // if there are sensor values, graph them:  AND pass the values to the knob objects
   if (sensorValues != null) {
@@ -234,7 +274,17 @@ void draw() {
   //world.fadingTrailsTransparentRectOverlay(0);  // 0 = knob 8 , 1 = knob 9
   world.moveWorldCenter();
   world.rotateWorld();
+  
+  //create some trails
+ // fill(0,5);
+ // rect(0,0,width,height);
 
+
+// feedback image yo yo
+   // acquire pixels within these dimensions and store in PImage varible 'img'
+  
+
+ 
   //try world fading again see what happens
   //world.fadingTrailsTransparentRectOverlay(-1);  
   // world.moveWorldCenter ();
@@ -245,6 +295,23 @@ void draw() {
   //  simulate button presses via keys on the keyboard
  // updateControlsFromKeyboard();
 
+// feedback image yo yo
+   // acquire pixels within these dimensions and store in PImage varible 'img'
+  //feedback layer
+ 
+/*pushMatrix();
+  rotate(0);
+  beginShape();
+  texture(feedbackImage);
+  vertex(0, 0, 0, 0);
+  vertex(200, 0, width/2, 0);
+  vertex(200, 200, width/2, height/2);
+  vertex(0, 200, 0, height/2);
+  endShape(CLOSE);
+  popMatrix();
+  */
+
+  
   // print out the current state of the controls
   debugControls();
 
@@ -253,6 +320,13 @@ void draw() {
 
   // tell the current state to update the display!
   CurrentState.updateDisplay();
+  
+  
+  // feedbackImage=get(mouseX, mouseY, width, height);
+ 
+  
+  
+
 }
 
 
@@ -291,14 +365,14 @@ void serialEvent(Serial myPort) {
 
 // TODO: set up outputPins
 void setUpControlsForRadianceController() {
-   redButton.inputPin = 7; 
-   redButton.outputPin = -1; 
+   blueButton.inputPin = 7; 
+   blueButton.outputPin = -1; 
 
-   redLeft.inputPin = 1; 
-   redLeft.outputPin = -1; 
+   blueLeft.inputPin = 1; 
+   blueLeft.outputPin = -1; 
 
-   redRight.inputPin = 2; 
-   redRight.outputPin = -1; 
+   blueRight.inputPin = 2; 
+   blueRight.outputPin = -1; 
 
    greenButton.inputPin = 8; 
    greenButton.outputPin = -1; 
@@ -309,14 +383,14 @@ void setUpControlsForRadianceController() {
    greenRight.inputPin = 4; 
    greenRight.outputPin = -1; 
 
-   blueButton.inputPin = 9; 
-   blueButton.outputPin = -1; 
+   redButton.inputPin = 9; 
+   redButton.outputPin = -1; 
 
-   blueLeft.inputPin = 5; 
-   blueLeft.outputPin = -1; 
+   redLeft.inputPin = 5; 
+   redLeft.outputPin = -1; 
 
-   blueRight.inputPin = 0;
-   blueRight.outputPin = -1; 
+   redRight.inputPin = 0;
+   redRight.outputPin = -1; 
   
    ohm.inputPin = 6;
    ohm.outputPin = -1; 
@@ -360,6 +434,70 @@ void setUpControlsForFP13() {
 
    snapper.inputPin = 10; 
    snapper.outputPin = -1; 
+}
+
+
+void beep() {
+   Toolkit.getDefaultToolkit().beep(); 
+}
+
+
+  // Format a 4-digit integer (positive or negative) with spaces for pretty printing
+  String padInt(int value) {
+      String prefix = " ";
+      if (value < 0) {
+         prefix = "-";
+         value = value * -1;
+      }
+      
+      if (value >= 1000) return prefix+value;
+      if (value >= 100)  return " "+prefix+value;
+      if (value >= 10)   return "  "+prefix+value;
+      return "   "+prefix+value;
+  }
+
+
+// output right now as a string   YYYY.MM.DDHH.MM.SS
+String nowAsString() {
+  return nf(year(), 4)+"."+
+         nf(month(), 2)+"."+
+         nf(day(), 2)+"/"+
+         nf(hour(), 2)+"."+
+         nf(minute(), 2)+"."+
+         nf(second(), 2);
+}
+
+// Save the current screen state as a .jpg in the SNAP_FOLDER_PATH,
+// If you pass a filename, we'll use that, otherwise we'll default to the current date.
+// NOTE: do NOT pass the ".jpg" or the path.
+// Returns the name of the file saved.
+String saveScreen() {
+   return saveScreen(null); 
+}
+String saveScreen(String fileName) {
+  if (fileName == null) {
+    fileName = nowAsString(); 
+  }
+  
+  save(SNAP_FOLDER_PATH + fileName + ".jpg");
+  println("SAVED AS "+fileName);
+  return fileName;
+}
+
+
+// Set the randomSeed to the current timestamp.
+void updateUniversalRandomness() {
+  randomSeed(millis());
+}
+
+// Return a random image from the angel card library,
+//   loading them as necessary.
+PImage getAngelCard(int cardNum) {
+   if (angelCard[cardNum] == null) {
+      println("loading card "+cardNum+" of "+totalCards);
+      angelCard[cardNum] = loadImage("F_P"+cardNum+".png");
+   }
+   return angelCard[cardNum]; 
 }
 
 

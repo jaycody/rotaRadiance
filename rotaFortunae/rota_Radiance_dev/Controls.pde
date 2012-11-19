@@ -61,10 +61,7 @@ class Control {
 
   // return the value of this control as a nicely formatted string
   String asString() {
-      if (value >= 1000) return ""+value;
-      if (value >= 100)  return " "+value;
-      if (value >= 10)   return "  "+value;
-      return "   "+value;
+      return padInt(value);
   }
   
   
@@ -144,8 +141,6 @@ class Button extends Control {
 int INCREASE_DELTA = 1;
 int DECREASE_DELTA = -1;
 
-// NUMBER OF SAMPLES FOR RUNNING SENSOR AVERAGE
-int SAMPLE_COUNT = 3;
 class Potentiometer extends Control {   
   int[] samples;
   int currentSample;
@@ -184,24 +179,6 @@ class Potentiometer extends Control {
 }  
 
 
-// debug controls states
-void XdebugControls() {
-  println("CONTROL STATE");
-  for (int i = 0; i < controls.length; i++) {
-     Control control = controls[i];
-     control.debug(); 
-  }
-  
-  // USE THE FOLLOWING TO ITERATE AS A MAP
-  //Iterator iterator = controls.keySet().iterator();
-  //while (iterator.hasNext()) {
-  // String name = iterator.next().toString();
-  //  Control control = (Control)controls.get(name);
-  //  control.debug();
-  //}
-}
-
-
 void debugControls() {
    println("");
    if (CurrentState != null) {
@@ -212,8 +189,9 @@ void debugControls() {
    println("    RED     "+redLeft.asString()+"    "+redButton.asString()+"     "+redRight.asString()+"        "+redButton.LEDAsString());
    println("  GREEN     "+greenLeft.asString()+"    "+greenButton.asString()+"     "+greenRight.asString()+"        "+greenButton.LEDAsString());
    println("   BLUE     "+blueLeft.asString()+"    "+blueButton.asString()+"     "+blueRight.asString()+"        "+blueButton.LEDAsString());
-   println("SNAPPER             "+snapper.asString()+"                 "+snapper.LEDAsString());
+   println("SNAPPER              "+snapper.asString()+"                  "+snapper.LEDAsString());
    println("    OHM     "+ohm.asString()+"                         "+ohm.LEDAsString());
+   println("          -----------------------------------");
 }
 
 

@@ -17,17 +17,26 @@ class Arm {
   float maxH;         // image percent of screen size if potentiometer at max
 
   float angle;        // angle of top-left point of image from it's (x,y) as (top,left)
-  float opacity;      // UNUSED:  0 = transparent, 1 = opaque
+  int opacity;      // UNUSED:  0 = transparent, 1 = opaque
   
-  Arm(String _name, Control _distanceControl, Control _sizeControl) {
+   float widthScalar;
+   float heightScalar;
+  
+  
+  Arm(String _name, Control _distanceControl, Control _sizeControl, int _opacity) {
    name = _name;
    distanceControl = _distanceControl;
    sizeControl = _sizeControl;
+   opacity = _opacity;
    switchPhoto();
+   
+   widthScalar = random (1,4);
+   heightScalar = random (1,4);
+  
   }   
  
   // Reset our max/min values to those passed in
-  void reset(float _minW, float _minH, float _maxW, float _maxH, float _minX, float _minY, float _maxX, float _maxY) {
+  void reset(float _minW, float _minH, float _maxW, float _maxH, float _minX, float _minY, float _maxX, float _maxY, float _angle) {
     minW = _minW;
     minH = _minH;
     minX = _minX;
@@ -37,6 +46,8 @@ class Arm {
     maxH = _maxH;
     maxX = _maxX;
     maxY = _maxY;
+    
+    angle = _angle;
   }
   
   // Return the value of our distance control as a percentage 0-1.
@@ -59,7 +70,7 @@ class Arm {
   }
 
   void display() {   
-    PImage photo = angelCard[imageNum];
+    PImage photo = getAngelCard(imageNum);
     
     float distanceMultiplier = getDistancePercent();
     float sizeMultiplier = getSizePercent();
@@ -68,15 +79,42 @@ class Arm {
     float centerY = SCREEN_HEIGHT/2;
     
     int x = int(map(distanceMultiplier, 0, 1, minX, maxX) * centerX);
-    int y = int(map(distanceMultiplier, 0, 1, minY, maxY) * centerY);
+    int y = int(map(1-distanceMultiplier, 0, 1, minY, maxY) * centerY);
     int w = int(map(sizeMultiplier, 0, 1, minW, maxW) * centerX);
-    int h = int(map(sizeMultiplier, 0, 1, minH, maxH) * centerY);
+    int h = int(map(1-sizeMultiplier, 0, 1, minH, maxH) * centerY);
     
-    println(name+"   x,y: "+x+", "+y+"    w,h: "+w+","+h+"    "+centerX+","+centerY);
+    println("  "+name+"   x,y: "+padInt(x)+", "+padInt(y)+"     w,h: "+padInt(w)+","+padInt(h));
  //   println(distanceMultiplier+"   "+sizeMultiplier);
+   
+    // rotate each individual arm a little bit separately
+    rotate(angle);
+   
+    // set opacity 
+    tint(255, opacity);
+    // draw image at specified size
+   
+  // image(photo, x, y, w, h);
+ /*  
+     beginShape(); //was 'beginShape'
+  texture(photo);
+  vertex((x*heightScalar), (y*widthScalar), 0, 0);
+  vertex(x +w, h+w, photo.width, 0);
+  vertex((x+w)*2, y+h*heightScalar, photo.width, photo.height);
+  vertex(x+w, (y+h), 0, photo.height);
+  endShape(CLOSE);
+  */
     
-   // image(photo, x, y, w, h);
-    image(photo, x, y, w, h);
+     beginShape(); //was 'beginShape'
+  texture(photo);
+  vertex(x*heightScalar, y*widthScalar, 0, 0);
+  vertex(x +w, y*(1.5), photo.width, 0);
+  vertex(x+w*widthScalar, y+h*heightScalar, photo.width, photo.height);
+  vertex((x+w), (y+h), 0, photo.height);
+  endShape(CLOSE);
+  
+  
+    // reset opacity for next time
+    tint(255, 255);
   }
 }   
 

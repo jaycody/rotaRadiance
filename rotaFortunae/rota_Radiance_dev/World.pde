@@ -82,7 +82,9 @@ class World {
     
     float transX = map(locX, 0, width, -width/2, width+width/2); // map the knobs to the width
     float transY = map(locY, 0, height, height+height/2, -height/2); //map the knobs to the height
-    translate (transX, transY); //dot syntax to access the PVector for translate
+  
+  // translate (locX,locY);
+   // translate (transX, transY); //dot syntax to access the PVector for translate
   }
 
   void rotateWorld () {
@@ -91,11 +93,12 @@ class World {
     //float r = map (knobVal, 0, 1023, 6, 13); // use the knobVal to inform velocity
 
     // get, store and map the averaged knob value
-    float averagedKnob4Val = knobs[4].getAveragedKnobVal();
-    float averagedKnob5Val = knobs[5].getAveragedKnobVal();
+//    float averagedKnob4Val = knobs[4].getAveragedKnobVal();
+//    float averagedKnob5Val = knobs[5].getAveragedKnobVal();
 
-    float r = map (ohm.value, 0, 1023, 0, 13); // use the knobVal to inform velocity
-    rotation += (r + (r*PI)); // add mapped velocity to rotational velocity
+    float r = map (ohm.value, 0, 1023, 0, 1); // use the knobVal to inform velocity
+    rotation += (r*PI); // add mapped velocity to rotational velocity
+   // rotation += (r + (r*PI)); // add mapped velocity to rotational velocity
     //rotateX(rot);
     //rotateY(rot);
     rotate (rotation);  //rotate the world by rot value in radians

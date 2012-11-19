@@ -42,6 +42,12 @@ class AppState {
     if (redButton.isOn()) redArm.switchPhoto();
     if (greenButton.isOn()) greenArm.switchPhoto();
     if (blueButton.isOn()) blueArm.switchPhoto();
+    
+    if (redButton.isOn() && greenButton.isOn() && blueButton.isOn()) {
+       String lastState = CurrentState.name;
+       enterState("ResetArms");
+       enterState(lastState);
+    } 
   } 
 
   // tell the arms to draw their current state
