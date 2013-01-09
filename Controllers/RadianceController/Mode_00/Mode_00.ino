@@ -25,7 +25,7 @@ int buttonBluePot1_Power = 38;
 int buttonBluePot2_Power = 39;
 int ohMitePot_Power = 40;
 //A1-A7 analog reads from potentiometers
-int buttonRedPot1Read = A9;
+int buttonRedPot1Read = A12;
 int buttonRedPot2Read = A1;
 int buttonGreenPot1Read = A2;
 int buttonGreenPot2Read = A3;

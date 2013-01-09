@@ -2,6 +2,27 @@
  jason stephens
  2012.10 VideoAlchemy Exhibit
  
+ DIRECTIONS FOR RADIANCE HOUSEMATES:
+ 1. Does the word 'Processing' appear in the top left of this computer screen?
+    - If no, then select this window to make PROCESSING the active program
+    - If YES, then go to step 2.
+ 2. From the choices on the top left you should see the following options:
+    Processing   File   Edit   Sketch   Tools   Help
+   
+  3. select 'Sketch'
+  4. observe the drop down menu from 'Sketch'  It reads:  Run  Present  Stop  ...etc
+  5. Keep Reading ALL the instructions before going to the next step.
+  6. Select 'Present'
+  7. Wait about 1 minute for the Video Alchemy application to begin.  
+  8. after about 1 minute, you should see spinning graphics.
+  9. In order to center the rotation of the graphics on the screen, select the bottom
+        right button on the big wooden console.  it's the bottom right button, it's read, it has
+        a star on it;
+   10. Hit the bottom right button AGAIN.  This should center the image.
+   11. You're DONE!
+   
+   
+ 
  Keyboard Controls
  'R'
  'G'
