@@ -1,13 +1,10 @@
-/* QA_FP13_SerialReadTest SystemsCheck
+/* OmiCron_SystemsCheck
  [x] Verified in Processing 2.0b5 
  [x] verified in Processing 1.5.1
  
  jason stephens
  ITP 2011.12
  updated 2012.10 for the VideoAlchemy Exhibit at Radiance
- 
- The F-P13 derives its name from the current possibility
- that 13 may be Pregnant with Flynn.
  
  Version_01 : Systems Check : A calibration and testing application
  
