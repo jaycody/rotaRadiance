@@ -33,6 +33,7 @@ __________
 ________
 
 ###Photo Galleries:
+[Sea of Dreams:  New Year's Eve 2012 in San Fran] (http://www.flickr.com/photos/jaycody9/sets/72157632351832297/)
 [Emblems of Video Alchemy:  A Pattern Language] (http://www.flickr.com//photos/jaycody9/sets/72157627964989306/show/ "Flickr Gallery")  
 [Video Alchemy @ Radiance Gallery : Sketches, Mockups, Install // Aug - Nov 2012] (https://www.dropbox.com/sh/90rs9db1xebfejy/bbzPMPqx-5)    
 Radiance Gallery Exhibition // Nov - Dec 2012  
